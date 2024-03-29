@@ -42,6 +42,7 @@ def get_odoorc_path():
     return None
 
 def get_repo_directory():
+    # Works because this function is in a file one level below the repo directory.
     file_directory = os.path.abspath(__file__)
     return os.path.dirname(file_directory)
 
@@ -56,7 +57,7 @@ def get_venv_config_file_path():
     return venv_file_path
 
 def get_value_from_odoo_config(option):
-    def try_find(file_path):
+    def try_find_option(file_path):
         if os.path.exists(file_path):
             config = configparser.ConfigParser()
             config.read(file_path)
@@ -67,7 +68,7 @@ def get_value_from_odoo_config(option):
 
     odoorc_path = get_odoorc_path()
     config_file_path = get_odoo_config_file_path()
-    value = try_find(config_file_path) or try_find(odoorc_path)
+    value = try_find_option(config_file_path) or try_find_option(odoorc_path)
     if not value:
         raise Exception(f"Could not find '{option}' in [options] section neither at {config_file_path} or {odoorc_path}.")
     return value
@@ -78,15 +79,24 @@ def execute_command(command, get_output=False):
         raise Exception(f"Command {command} failed.")
     return result.stdout
 
-def launch_odoo(db, extra_args=None, python_path=DEFAULT_PYTHON_PATH):
+def launch_odoo(db, shell=False, extra_args=[], python_path=DEFAULT_PYTHON_PATH):
     odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
     odoo_command = [
         python_path,
-        odoo_bin_path,
+        odoo_bin_path
+    ]
+    shell_arguments = [
+        "shell",
+        "--log-level",
+        "critical",
+    ] if shell else []
+    arguments = [
         "-d",
         db,
-    ] + (extra_args if extra_args else [])
-    execute_command(odoo_command)
+        "--config",
+        get_odoo_config_file_path(),
+    ]
+    execute_command(odoo_command + shell_arguments + arguments + extra_args)
 
 def get_python_path(version):
     venv_file_path = get_venv_config_file_path()
@@ -121,7 +131,6 @@ def extract_version_from_db(db):
         WHERE name = 'base'
         LIMIT 1
     """
-
     with psycopg2.connect(database=db) as conn:
         with conn.cursor() as cr:
             cr.execute(base_version_query)
@@ -144,7 +153,7 @@ def extract_version_from_branch(repo_path):
     branch_name = get_repo_current_branch(repo_path)
     return extract_version(branch_name)
 
-def get_odoo_version():
+def get_odoo_repo_version():
     odoo_dir = os.path.dirname(get_value_from_odoo_config("odoo_bin_path"))
     return extract_version_from_branch(odoo_dir)
 

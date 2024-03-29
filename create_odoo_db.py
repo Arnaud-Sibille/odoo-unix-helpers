@@ -3,7 +3,7 @@
 import argparse
 
 from switch_odoo_branches import switch_odoo_branches
-from tools import launch_odoo, get_python_path, get_odoo_version
+from tools import launch_odoo, get_python_path, get_odoo_repo_version
 
 
 ARGUMENTS = {
@@ -22,7 +22,7 @@ ARGUMENTS = {
 
 def create_odoo_db(version, db, extra_args=None, pull=False):
     if not version:
-        version = get_odoo_version()
+        version = get_odoo_repo_version()
     else:
         switch_odoo_branches(version, pull)
     python_path = get_python_path(version)

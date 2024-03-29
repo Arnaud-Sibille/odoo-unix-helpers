@@ -24,10 +24,10 @@ ARGUMENTS = {
         "help": "path to odoo-bin",
     },
     ("--addons-path", ): {
-        "help": "comma separated path to the odoo addons",
+        "help": "comma separated pathes to the odoo addons",
     },
     ("--upgrade-path", ): {
-        "help": "comma seperated path to the upgrade repos",
+        "help": "comma seperated pathes to the upgrade repos",
     },
     ("--data-dir", ): {
         "help": "parent directory of the filestore directory"
