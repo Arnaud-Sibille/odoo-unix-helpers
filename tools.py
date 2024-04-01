@@ -73,13 +73,13 @@ def get_value_from_odoo_config(option):
         raise Exception(f"Could not find '{option}' in [options] section neither at {config_file_path} or {odoorc_path}.")
     return value
 
-def execute_command(command, get_output=False):
-    result = subprocess.run(command, capture_output=get_output)
+def execute_command(command, get_output=False, input_str=None):
+    result = subprocess.run(command, input=input_str.encode() if input_str else None, capture_output=get_output)
     if result.returncode:
         raise Exception(f"Command {command} failed.")
     return result.stdout
 
-def launch_odoo(db, shell=False, extra_args=[], python_path=DEFAULT_PYTHON_PATH):
+def launch_odoo(db, shell=False, extra_args=[], input_code=None, python_path=DEFAULT_PYTHON_PATH):
     odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
     odoo_command = [
         python_path,
@@ -89,14 +89,14 @@ def launch_odoo(db, shell=False, extra_args=[], python_path=DEFAULT_PYTHON_PATH)
         "shell",
         "--log-level",
         "critical",
-    ] if shell else []
+    ] if (shell or input_code) else []
     arguments = [
         "-d",
         db,
         "--config",
         get_odoo_config_file_path(),
     ]
-    execute_command(odoo_command + shell_arguments + arguments + extra_args)
+    execute_command(odoo_command + shell_arguments + arguments + extra_args, input_str=input_code)
 
 def get_python_path(version):
     venv_file_path = get_venv_config_file_path()

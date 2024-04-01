@@ -87,7 +87,7 @@ def create_alias_file():
     with open(alias_file_path, "w") as alias_file:
         alias_file.write(content)
         bashrc_command = f"source {alias_file_path}"
-        print(f"{ALIAS_FILE} file created, you can add `{bashrc_command}` in your ~/.bashrc file in order to have them available in your next sessions.")
+        print(f"{ALIAS_FILE} file created.  Add `{bashrc_command}` in your ~/.bashrc file to have them available in your future sessions.")
 
 def set_up(option, value):
     if value:
