@@ -8,7 +8,7 @@ from tools import get_value_from_odoo_config, execute_command, pull_repo
 
 ARGUMENTS = {
     ("version", ) : {
-        "help": "version to switch the odoo addons to",
+        "help": "version to switch the versionned odoo addons to",
     },
     ("-p", "--pull") : {
         "action": "store_true",
@@ -29,16 +29,23 @@ def switch_repo(repo_path, branch, pull=False):
     if pull:
         pull_repo(repo_path)
 
+def get_versionned_addons_path():
+    try: 
+        return get_value_from_odoo_config("versionned_addons_path")
+    except:
+        return get_value_from_odoo_config("addons_path")
+
+
 def switch_odoo_branches(version, pull=False):
     odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
     odoo_dir = os.path.dirname(odoo_bin_path)
     switch_repo(odoo_dir, version, pull)
 
-    addons_path = get_value_from_odoo_config("addons_path")
-    for addon_path in addons_path.split(','):
-        # to avoid pulling two times the community repo
-        if not addon_path.startswith(odoo_dir):
-            switch_repo(addon_path, version, pull)
+    addons_path_to_switch = get_versionned_addons_path()
+    for addon_path_to_switch in addons_path_to_switch.split(','):
+        # to avoid pulling again the community repo
+        if not addon_path_to_switch.startswith(odoo_dir):
+            switch_repo(addon_path_to_switch, version, pull)
 
 
 if __name__ == "__main__":
