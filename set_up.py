@@ -70,7 +70,7 @@ def get_program_alias_name(program_path):
 
 def get_program_alias_command(program_path):
     program_name = get_program_alias_name(program_path)
-    return f"alias {program_name}={program_path}\n"
+    return f"alias {program_name}=python3 {program_path}\n"
 
 def get_programs():
     file_names = os.listdir(get_repo_directory())
