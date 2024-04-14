@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from tools import get_value_from_odoo_config, execute_command
+from tools import get_value_from_odoo_config, execute_command, pull_repo
 
 
 ARGUMENTS = {
@@ -25,15 +25,9 @@ def switch_repo(repo_path, branch, pull=False):
         "switch",
         branch,
     ]
-    pull_command = [
-        "git",
-        "-C",
-        repo_path,
-        "pull",
-    ]
     execute_command(switch_command)
     if pull:
-        execute_command(pull_command)
+        pull_repo(repo_path)
 
 def switch_odoo_branches(version, pull=False):
     odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")

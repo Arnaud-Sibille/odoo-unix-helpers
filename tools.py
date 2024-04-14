@@ -136,6 +136,15 @@ def extract_version_from_db(db):
             res = cr.fetchall()
     return extract_version(res[0][0])
 
+def pull_repo(repo_path):
+    pull_command = [
+        "git",
+        "-C",
+        repo_path,
+        "pull",
+    ]
+    execute_command(pull_command)
+
 def get_repo_current_branch(repo_path):
     get_branch_command = [
         "git",
