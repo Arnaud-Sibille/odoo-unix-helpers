@@ -10,13 +10,17 @@ from tools import VERSIONS, get_odoo_config_file_path, get_venv_config_file_path
 # -- can be modified -- #
 
 ALIAS_FILE = ".alias"
+ALIAS_IGNORE = [
+    "set_up.py",
+    "tools.py",
+]
 
 # --------------------- #
 
 
 def version_to_arg(version):
     arg_name = "--" + version
-    help = f"virtual environment path for {version} version"
+    help = f"python path for {version = }"
     return (arg_name, ), {"help": help}
 
 ARGUMENTS = {
@@ -30,7 +34,7 @@ ARGUMENTS = {
         "help": "comma seperated pathes to the upgrade repos",
     },
     ("--data-dir", ): {
-        "help": "parent directory of the filestore directory"
+        "help": "parent directory of the filestore directory",
     },
     ("--create-alias", ): {
         "action": "store_true",
@@ -68,12 +72,12 @@ def get_program_alias_command(program_path):
     program_name = get_program_alias_name(program_path)
     return f"alias {program_name}={program_path}\n"
 
-def get_programs(ignore=["set_up.py", "tools.py"]):
+def get_programs():
     file_names = os.listdir(get_repo_directory())
 
     programs = []
     for file_name in file_names:
-        if not file_name.startswith('.') and file_name not in ignore:
+        if not file_name.startswith('.') and file_name not in ALIAS_IGNORE:
             file_path = os.path.join(get_repo_directory(), file_name)
             if os.path.isfile(file_path):
                 programs.append(file_path)

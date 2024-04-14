@@ -83,7 +83,7 @@ def launch_odoo(db, shell=False, extra_args=[], input_code=None, python_path=DEF
     odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
     odoo_command = [
         python_path,
-        odoo_bin_path
+        odoo_bin_path,
     ]
     shell_arguments = [
         "shell",
@@ -104,10 +104,9 @@ def get_python_path(version):
         config = configparser.ConfigParser()
         config.read(venv_file_path)
         try:
-            venv_path = config.get(version, "venv")
-            return os.path.join(venv_path, "bin/python")
+            return config.get(version, "python_path")
         except (configparser.NoSectionError, configparser.NoOptionError):
-            print(f"No venv found in {venv_file_path} for {version}")
+            print(f"No specific python path found in {venv_file_path} for {version}")
     return DEFAULT_PYTHON_PATH
 
 def extract_version(raw_version, saas_prefix=False):

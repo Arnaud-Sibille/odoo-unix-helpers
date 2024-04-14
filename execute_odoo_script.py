@@ -27,6 +27,7 @@ ARGUMENTS = {
     },
 }
 
+
 def execute_odoo_script(db, script_path, extra_args=None, commit=False, pull=False, no_switch=False):
     with open(script_path, 'r') as script:
         input_code = script.read()
@@ -40,7 +41,7 @@ def execute_odoo_script(db, script_path, extra_args=None, commit=False, pull=Fal
     python_path = get_python_path(version)
     print("--- executing script ---")
     launch_odoo(db, input_code=input_code, extra_args=extra_args, python_path=python_path)
-    print("*** script executed ***")
+    print("*** script executed  ***")
 
 
 if __name__ == "__main__":
