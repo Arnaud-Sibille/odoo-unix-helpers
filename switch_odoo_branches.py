@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from tools import get_value_from_odoo_config, execute_command, pull_repo, get_odoo_repo_path
+from tools import get_value_from_odoo_config, execute_command, pull_repo, get_odoo_repo_path, get_addons_path
 
 
 ARGUMENTS = {
@@ -17,7 +17,7 @@ ARGUMENTS = {
 }
 
 
-def switch_repo(repo_path, branch, pull=False):
+def switch_repo(repo_path, branch):
     switch_command = [
         "git",
         "-C",
@@ -26,8 +26,6 @@ def switch_repo(repo_path, branch, pull=False):
         branch,
     ]
     execute_command(switch_command)
-    if pull:
-        pull_repo(repo_path)
 
 def get_versionned_addons_path():
     try: 
@@ -37,13 +35,19 @@ def get_versionned_addons_path():
 
 def switch_odoo_branches(version, pull=False):
     odoo_dir = get_odoo_repo_path()
-    switch_repo(odoo_dir, version, pull)
+    switch_repo(odoo_dir, version)
+    if pull:
+        pull_repo(odoo_dir)
 
-    addons_path_to_switch = get_versionned_addons_path()
-    for addon_path_to_switch in addons_path_to_switch.split(','):
-        # to avoid pulling again the community repo
-        if not addon_path_to_switch.startswith(odoo_dir):
-            switch_repo(addon_path_to_switch, version, pull)
+    addons_path_to_switch = get_versionned_addons_path().split(',')
+    for addon_path in get_addons_path():
+        # to avoid considering again the community repo
+        if addon_path.startswith(odoo_dir):
+            continue
+        if addon_path in addons_path_to_switch:
+            switch_repo(addon_path, version)
+        if pull:
+            pull_repo(addon_path)
 
 
 if __name__ == "__main__":

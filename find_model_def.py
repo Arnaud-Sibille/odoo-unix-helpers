@@ -8,14 +8,13 @@ from tools import get_addons_path
 
 ARGUMENTS = {
     ("model_name", ): {
-        "help": "name of the model to look for"
-    }
+        "help": "name of the model to look for",
+    },
 }
 
 
 def find_model_def(model_name):
     search_pattern = f'_name = [\'"]{model_name}'
-    # search_pattern = 'yo'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [
