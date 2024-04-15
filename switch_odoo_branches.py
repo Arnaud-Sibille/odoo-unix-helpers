@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from tools import get_value_from_odoo_config, execute_command, pull_repo
+from tools import get_value_from_odoo_config, execute_command, pull_repo, get_odoo_repo_path
 
 
 ARGUMENTS = {
@@ -35,10 +35,8 @@ def get_versionned_addons_path():
     except:
         return get_value_from_odoo_config("addons_path")
 
-
 def switch_odoo_branches(version, pull=False):
-    odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
-    odoo_dir = os.path.dirname(odoo_bin_path)
+    odoo_dir = get_odoo_repo_path()
     switch_repo(odoo_dir, version, pull)
 
     addons_path_to_switch = get_versionned_addons_path()

@@ -73,6 +73,16 @@ def get_value_from_odoo_config(option):
         raise Exception(f"Could not find '{option}' in [options] section neither at {config_file_path} or {odoorc_path}.")
     return value
 
+def get_odoo_repo_path():
+    odoo_bin_path = get_value_from_odoo_config("odoo_bin_path")
+    return os.path.dirname(odoo_bin_path)
+
+def get_addons_path():
+    addons_path = set(get_value_from_odoo_config("addons_path").split(','))
+    base_addon_path = os.path.join(get_odoo_repo_path(), 'odoo/addons')
+    addons_path.add(base_addon_path)
+    return addons_path
+
 def execute_command(command, get_output=False, input_str=None):
     result = subprocess.run(command, input=input_str.encode() if input_str else None, capture_output=get_output)
     if result.returncode:
