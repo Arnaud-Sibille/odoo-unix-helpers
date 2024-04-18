@@ -58,7 +58,7 @@ def add_to_config_file(config_file_path, section, option, value):
         config.write(config_file)
 
 def add_to_venv_config(version, venv_path):
-    add_to_config_file(get_venv_config_file_path(), version, 'venv', venv_path)
+    add_to_config_file(get_venv_config_file_path(), version, 'python_path', venv_path)
 
 def add_to_odoo_config(option, value):
     add_to_config_file(get_odoo_config_file_path(), 'options', option, value)
