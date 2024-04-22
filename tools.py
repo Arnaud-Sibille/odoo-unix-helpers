@@ -98,8 +98,8 @@ def launch_odoo(db, shell=False, extra_args=[], input_code=None, python_path=DEF
     ]
     shell_arguments = [
         "shell",
-        "--log-level",
-        "critical",
+        "--log-handler",
+        ":CRITICAL",
     ] if (shell or input_code) else []
     arguments = [
         "-d",
