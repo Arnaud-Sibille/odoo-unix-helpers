@@ -7,14 +7,14 @@ from tools import get_addons_path
 
 
 ARGUMENTS = {
-    ("field_name", ): {
-        "help": "name of the field to look for",
+    ("model_name", ): {
+        "help": "name of the model to look for",
     },
 }
 
 
-def find_field_def(field_name):
-    search_pattern = f'{field_name}.*fields\.'
+def find_model_def(model_name):
+    search_pattern = f'\\s_inherit.*[\'"]{model_name}'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args = parser.parse_args()
-    find_field_def(args.field_name)
+    find_model_def(args.model_name)
