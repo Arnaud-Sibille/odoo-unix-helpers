@@ -14,7 +14,7 @@ ARGUMENTS = {
 
 
 def find_word(word):
-    search_pattern = f'[^A-Za-z0-9_]{word}[^A-Za-z0-9_]'
+    search_pattern = f'\\b{word}\\b'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [
@@ -28,6 +28,10 @@ def find_word(word):
             '*.js',
             '--include',
             '*.xml',
+            '--include',
+            '*.css',
+            '--include',
+            '*.scss',
             search_pattern,
             addon_path,
         ]
