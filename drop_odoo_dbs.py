@@ -25,14 +25,13 @@ def drop_db_filestore(db):
         execute_command(drop_filestore_command)
 
 def drop_odoo_db(db):
-    drop_db_filestore(db)
     dropdb_command = [
         "dropdb",
         "--if-exists",
         db,
     ]
     execute_command(dropdb_command)
-
+    drop_db_filestore(db)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

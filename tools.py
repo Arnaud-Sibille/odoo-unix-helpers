@@ -12,7 +12,7 @@ VENV_CONFIG_FILE = ".venv_conf"
 
 DEFAULT_PYTHON_PATH = "/usr/bin/python3"
 
-MASTER_VERSION = "17.3"
+MASTER_VERSION = "17.4"
 
 VERSIONS = [
     "master",
