@@ -18,15 +18,15 @@ ARGUMENTS = {
         "action": "store_true",
         "help": "pull the branch after switching",
     },
-    ("--no-switch", ): {
+    ("--switch", ): {
         "action": "store_true",
-        "help": "do not switch the branches",
+        "help": "switch the branches",
     },
 }
 
 
-def launch_odoo_db(db, extra_args=None, shell=False, pull=False, no_switch=False):
-    if not no_switch:
+def launch_odoo_db(db, extra_args=None, shell=False, pull=False, switch=False):
+    if switch:
         version = extract_version_from_db(db)
         switch_odoo_branches(version, pull)
     else:
@@ -40,4 +40,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args, extra_args = parser.parse_known_args()
-    launch_odoo_db(args.db, extra_args=extra_args, shell=args.shell, pull=args.pull, no_switch=args.no_switch)
+    launch_odoo_db(args.db, extra_args=extra_args, shell=args.shell, pull=args.pull, switch=args.switch)

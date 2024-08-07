@@ -21,19 +21,19 @@ ARGUMENTS = {
         "action": "store_true",
         "help": "pull the branch after switching",
     },
-    ("--no-switch", ): {
+    ("--switch", ): {
         "action": "store_true",
-        "help": "do not switch the branches",
+        "help": "switch the branches",
     },
 }
 
 
-def execute_odoo_script(db, script_path, extra_args=None, commit=False, pull=False, no_switch=False):
+def execute_odoo_script(db, script_path, extra_args=None, commit=False, pull=False, switch=False):
     with open(script_path, 'r') as script:
         input_code = script.read()
         if commit:
             input_code += '\nenv.cr.commit()\n'
-    if not no_switch:
+    if switch:
         version = extract_version_from_db(db)
         switch_odoo_branches(version, pull)
     else:
@@ -49,4 +49,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args, extra_args = parser.parse_known_args()
-    execute_odoo_script(args.db, args.script, extra_args=extra_args, commit=args.commit, pull=args.pull, no_switch=args.no_switch)
+    execute_odoo_script(args.db, args.script, extra_args=extra_args, commit=args.commit, pull=args.pull, switch=args.switch)

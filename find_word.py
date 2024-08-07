@@ -8,13 +8,13 @@ from tools import get_addons_path
 
 ARGUMENTS = {
     ("word", ): {
-        "help": "wordto look for",
+        "help": "word to look for",
     },
 }
 
 
 def find_word(word):
-    search_pattern = f'\\b{word}\\b'
+    search_pattern = r'\b' + word + r'\b'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [

@@ -14,7 +14,7 @@ ARGUMENTS = {
 
 
 def find_field_def(field_name):
-    search_pattern = f'{field_name}.*fields\.'
+    search_pattern = r'\b' + field_name + r' = fields\.'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [

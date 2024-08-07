@@ -14,7 +14,7 @@ ARGUMENTS = {
 
 
 def find_model_def(model_name):
-    search_pattern = f'\\s_inherit.*[\'"]{model_name}'
+    search_pattern = r'\s_inherits? = .*' + model_name
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [

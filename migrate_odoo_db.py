@@ -48,7 +48,7 @@ def migrate(db, version, pull=False, extra_args=None):
     ]
     extra_args = extra_args if extra_args else []
     switch_odoo_branches(version, pull=pull)
-    launch_odoo_db(db, extra_args=extra_args + migrate_args, no_switch=True)
+    launch_odoo_db(db, extra_args=extra_args + migrate_args, switch=False)
 
 def pull_upgrade_repos():
     upgrade_repos_pathes = get_value_from_odoo_config("upgrade_path")
