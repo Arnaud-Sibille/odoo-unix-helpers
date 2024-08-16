@@ -3,7 +3,7 @@
 import argparse
 import subprocess
 
-from tools import get_addons_path
+from utils.tools import get_addons_path
 
 
 ARGUMENTS = {
@@ -13,8 +13,8 @@ ARGUMENTS = {
 }
 
 
-def find_model_inherit(model_name, extra_args=[]):
-    search_pattern = r'\s_name = [\'"]' + model_name + r'[\'"]'
+def find_model_def(model_name, extra_args=[]):
+    search_pattern = r'\s_inherits? = .*[\'"]' + model_name + r'[\'"]'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args, extra_args = parser.parse_known_args()
-    find_model_inherit(args.model_name, extra_args=extra_args)
+    find_model_def(args.model_name, extra_args=extra_args)

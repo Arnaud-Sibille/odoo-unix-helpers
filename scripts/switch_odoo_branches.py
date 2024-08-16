@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from tools import get_value_from_odoo_config, execute_command, pull_repo, get_odoo_repo_path, get_addons_path
+from utils.tools import get_value_from_odoo_config, execute_command, pull_repo, get_odoo_repo_path, get_addons_path
 
 
 ARGUMENTS = {

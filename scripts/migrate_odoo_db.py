@@ -2,7 +2,7 @@
 
 import argparse
 
-from tools import VERSIONS, extract_version_from_db, get_value_from_odoo_config, pull_repo
+from utils.tools import VERSIONS, extract_version_from_db, get_value_from_odoo_config, pull_repo
 from drop_odoo_dbs import drop_odoo_db
 from duplicate_odoo_db import duplicate_odoo_db
 from switch_odoo_branches import switch_odoo_branches

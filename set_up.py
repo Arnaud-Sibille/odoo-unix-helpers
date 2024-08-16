@@ -4,16 +4,13 @@ import argparse
 import configparser
 import os
 
-from tools import VERSIONS, get_odoo_config_file_path, get_venv_config_file_path, get_repo_directory
+from scripts.utils.tools import VERSIONS, get_odoo_config_file_path, get_venv_config_file_path, get_repo_directory
 
 
 # -- can be modified -- #
 
 ALIAS_FILE = ".alias"
-ALIAS_IGNORE = [
-    "set_up.py",
-    "tools.py",
-]
+SCRIPT_DIR_NAME = "scripts"
 
 # --------------------- #
 
@@ -66,32 +63,33 @@ def add_to_odoo_config(option, value):
 def arg_to_version(arg):
     return arg.replace("_", "-")
 
-def get_program_alias_name(program_path):
-    filename = os.path.basename(program_path)
+def get_script_alias_name(script_path):
+    filename = os.path.basename(script_path)
     filename_without_extension = os.path.splitext(filename)[0]
     return filename_without_extension.replace("_", "-")
 
-def get_program_alias_command(program_path):
-    program_name = get_program_alias_name(program_path)
-    return f'alias {program_name}="python3 {program_path}"\n'
+def get_script_alias_command(script_path):
+    script_name = get_script_alias_name(script_path)
+    return f'alias {script_name}="python3 {script_path}"\n'
 
-def get_programs():
-    file_names = os.listdir(get_repo_directory())
+def get_script_paths():
+    script_directory = os.path.join(get_repo_directory(), SCRIPT_DIR_NAME)
 
-    programs = []
-    for file_name in file_names:
-        if not file_name.startswith('.') and file_name not in ALIAS_IGNORE:
-            file_path = os.path.join(get_repo_directory(), file_name)
-            if os.path.isfile(file_path):
-                programs.append(file_path)
-    return programs
+    script_paths = []
+    for name in os.listdir(script_directory):
+        script_path = os.path.join(script_directory, name)
+        if os.path.isfile(script_path):
+            script_paths.append(script_path)
+    
+    print(script_paths)
+    
+    return script_paths
 
 def create_alias_file():
     alias_file_path = os.path.join(get_repo_directory(), ALIAS_FILE)
-    content = ""
-    for program_path in get_programs():
-        content += get_program_alias_command(program_path)
+
     with open(alias_file_path, "w") as alias_file:
+        content = ''.join([get_script_alias_command(script_path) for script_path in get_script_paths()])
         alias_file.write(content)
         bashrc_command = f"source {alias_file_path}"
         print(f"{ALIAS_FILE} file created.  Add `{bashrc_command}` in your ~/.bashrc file to have them available in your future sessions.")

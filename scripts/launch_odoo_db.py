@@ -2,7 +2,7 @@
 
 import argparse
 
-from tools import extract_version_from_db, get_odoo_repo_version, get_python_path, launch_odoo
+from utils.tools import extract_version_from_db, get_odoo_repo_version, get_python_path, launch_odoo
 from switch_odoo_branches import switch_odoo_branches
 
 

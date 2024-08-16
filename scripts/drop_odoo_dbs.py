@@ -3,7 +3,7 @@
 import argparse
 import os
 
-from tools import get_filestore_path, execute_command
+from utils.tools import get_filestore_path, execute_command
 
 
 ARGUMENTS = {

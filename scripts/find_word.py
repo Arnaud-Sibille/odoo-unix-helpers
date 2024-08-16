@@ -3,18 +3,18 @@
 import argparse
 import subprocess
 
-from tools import get_addons_path
+from utils.tools import get_addons_path
 
 
 ARGUMENTS = {
-    ("field_name", ): {
-        "help": "name of the field to look for",
+    ("word", ): {
+        "help": "word to look for",
     },
 }
 
 
-def find_field_def(field_name, extra_args=[]):
-    search_pattern = r'\b' + field_name + r' = fields\.'
+def find_word(word, extra_args=[]):
+    search_pattern = r'\b' + word + r'\b'
     addons_path = get_addons_path()
     for addon_path in addons_path:
         grep_command = [
@@ -24,6 +24,14 @@ def find_field_def(field_name, extra_args=[]):
             '-E',
             '--include',
             '*.py',
+            '--include',
+            '*.js',
+            '--include',
+            '*.xml',
+            '--include',
+            '*.css',
+            '--include',
+            '*.scss',
             search_pattern,
             addon_path,
         ]
@@ -35,4 +43,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args, extra_args = parser.parse_known_args()
-    find_field_def(args.field_name, extra_args=extra_args)
+    find_word(args.word, extra_args=extra_args)

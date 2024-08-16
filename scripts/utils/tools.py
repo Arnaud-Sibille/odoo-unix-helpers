@@ -45,9 +45,9 @@ def get_odoorc_path():
     return None
 
 def get_repo_directory():
-    # Works because this function is in a file one level below the repo directory.
-    file_directory = os.path.abspath(__file__)
-    return os.path.dirname(file_directory)
+    # Works because this function is in a file 3 level below the repo directory.
+    current_file_dir = os.path.abspath(__file__)
+    return os.path.abspath(os.path.join(current_file_dir, '../../..'))
 
 def get_odoo_config_file_path():
     repo_directory = get_repo_directory()
