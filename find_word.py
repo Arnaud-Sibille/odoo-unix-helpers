@@ -13,7 +13,7 @@ ARGUMENTS = {
 }
 
 
-def find_word(word):
+def find_word(word, extra_args=[]):
     search_pattern = r'\b' + word + r'\b'
     addons_path = get_addons_path()
     for addon_path in addons_path:
@@ -35,12 +35,12 @@ def find_word(word):
             search_pattern,
             addon_path,
         ]
-        subprocess.run(grep_command)
+        subprocess.run(grep_command + extra_args)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
-    args = parser.parse_args()
-    find_word(args.word)
+    args, extra_args = parser.parse_known_args()
+    find_word(args.word, extra_args=extra_args)

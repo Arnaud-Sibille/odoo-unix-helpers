@@ -13,7 +13,7 @@ ARGUMENTS = {
 }
 
 
-def find_model_def(model_name):
+def find_model_inherit(model_name, extra_args=[]):
     search_pattern = r'\s_name = [\'"]' + model_name + r'[\'"]'
     addons_path = get_addons_path()
     for addon_path in addons_path:
@@ -27,12 +27,12 @@ def find_model_def(model_name):
             search_pattern,
             addon_path,
         ]
-        subprocess.run(grep_command)
+        subprocess.run(grep_command + extra_args)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
-    args = parser.parse_args()
-    find_model_def(args.model_name)
+    args, extra_args = parser.parse_known_args()
+    find_model_inherit(args.model_name, extra_args=extra_args)
