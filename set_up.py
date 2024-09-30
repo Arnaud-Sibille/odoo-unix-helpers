@@ -80,9 +80,7 @@ def get_script_paths():
         script_path = os.path.join(script_directory, name)
         if os.path.isfile(script_path):
             script_paths.append(script_path)
-    
-    print(script_paths)
-    
+
     return script_paths
 
 def create_alias_file():
