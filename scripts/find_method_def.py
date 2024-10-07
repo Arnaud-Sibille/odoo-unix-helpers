@@ -11,22 +11,25 @@ from find_model_files import find_model_files
 
 
 ARGUMENTS = {
-    ("model_name", ): {
-        "help": "Model of the method",
-    },
     ("method_name", ): {
         "help": "Method to look for",
-    }
+    },
+    ("model_name", ): {
+        "nargs": "*",
+        "help": "Model of the method",
+    },
 }
 
 def print_method(method):
     print(highlight(method.rstrip(), PythonLexer(), TerminalFormatter()))
 
-def find_method_def(method_name, model_name, extra_args=[]):
+def find_method_def(method_name, model_name_lst, extra_args=[]):
     search_pattern = r'^ {4}def ' + method_name + r'\('
     non_match_pattern = r'^ {0,4}\S'
-    model_files = find_model_files(model_name)
-    for filename in model_files.split():
+    model_files_lst = []
+    for model_name in model_name_lst:
+        model_files_lst += find_model_files(model_name).split()
+    for filename in model_files_lst:
         method = ""
         with open(filename, 'r') as file:
             file_name_printed = False
@@ -52,4 +55,4 @@ if __name__ == "__main__":
     for key, value in ARGUMENTS.items():
         parser.add_argument(*key, **value)
     args, extra_args = parser.parse_known_args()
-    find_method_def(args.method_name, args.model_name, extra_args=extra_args)
+    find_method_def(args.method_name, args.model_name if args.model_name else ['.*'], extra_args=extra_args)
