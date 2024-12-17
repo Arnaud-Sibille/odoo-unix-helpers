@@ -1,9 +1,9 @@
 import configparser
 import os
-import subprocess
-import psycopg2
 import re
+import subprocess
 
+import psycopg2
 
 # -- can be modified -- #
 
