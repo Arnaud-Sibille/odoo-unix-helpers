@@ -12,10 +12,11 @@ VENV_CONFIG_FILE = ".venv_conf"
 
 DEFAULT_PYTHON_PATH = "/usr/bin/python3"
 
-MASTER_VERSION = "17.4"
+MASTER_VERSION = "saas-18.2"
 
 VERSIONS = [
     "master",
+    "saas-18.1",
     "18.0",
     "saas-17.4",
     "saas-17.3"
@@ -118,7 +119,9 @@ def get_python_path(version):
         config = configparser.ConfigParser()
         config.read(venv_file_path)
         try:
-            return config.get(version, "python_path")
+            python_path = config.get(version, "python_path")
+            print(f"Using {python_path = }")
+            return python_path
         except (configparser.NoSectionError, configparser.NoOptionError):
             print(f"No specific python path found in {venv_file_path} for {version}")
     return DEFAULT_PYTHON_PATH

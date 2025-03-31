@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import time
 
 from utils.tools import extract_version_from_db, get_odoo_repo_version, get_python_path, launch_odoo
 from switch_odoo_branches import switch_odoo_branches
@@ -40,8 +41,10 @@ def execute_odoo_script(db, script_path, extra_args=None, commit=False, pull=Fal
         version = get_odoo_repo_version()
     python_path = get_python_path(version)
     print("--- executing script ---")
+    start = time.time()
     launch_odoo(db, input_code=input_code, extra_args=extra_args, python_path=python_path)
-    print("*** script executed  ***")
+    end = time.time()
+    print(f"*** script executed in {end-start} ***")
 
 
 if __name__ == "__main__":

@@ -40,12 +40,11 @@ def switch_odoo_branches(version, pull=False):
         pull_repo(odoo_dir)
 
     addons_path_to_switch = get_versionned_addons_path().split(',')
-    for addon_path in get_addons_path():
+    for addon_path in addons_path_to_switch:
         # to avoid considering again the community repo
         if addon_path.startswith(odoo_dir):
             continue
-        if addon_path in addons_path_to_switch:
-            switch_repo(addon_path, version)
+        switch_repo(addon_path, version)
         if pull:
             pull_repo(addon_path)
 
