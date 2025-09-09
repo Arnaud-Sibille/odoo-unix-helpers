@@ -16,6 +16,9 @@ MASTER_VERSION = "saas-18.2"
 
 VERSIONS = [
     "master",
+    "saas-18.4",
+    "saas-18.3",
+    "saas-18.2",
     "saas-18.1",
     "18.0",
     "saas-17.4",

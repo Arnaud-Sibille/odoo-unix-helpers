@@ -30,7 +30,10 @@ def launch_odoo_db(db, extra_args=None, shell=False, pull=False, switch=False):
         version = extract_version_from_db(db)
         switch_odoo_branches(version, pull)
     else:
-        version = get_odoo_repo_version()
+        try:
+            version = get_odoo_repo_version()
+        except:
+            version = 'master'
     python_path = get_python_path(version)
     launch_odoo(db, shell=shell, extra_args=extra_args, python_path=python_path)
 
