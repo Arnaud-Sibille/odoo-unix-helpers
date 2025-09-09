@@ -12,10 +12,14 @@ VENV_CONFIG_FILE = ".venv_conf"
 
 DEFAULT_PYTHON_PATH = "/usr/bin/python3"
 
-MASTER_VERSION = "saas-18.2"
+MASTER_VERSION = "saas-19.1"
 
 VERSIONS = [
     "master",
+    "19.0",
+    "saas-18.4",
+    "saas-18.3",
+    "saas-18.2",
     "saas-18.1",
     "18.0",
     "saas-17.4",
